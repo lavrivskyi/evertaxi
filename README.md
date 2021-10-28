@@ -1,5 +1,8 @@
 # EverTaxi
-![EverTaxi](evertaxi.png?raw=true)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/85931447/139277578-ecc770e8-e296-4305-ba24-9cff46c4f0a0.png" alt="EverTaxi">
+</p>
+
 ## Description
 This project is a simple realization of "taxi service" system. User can sign up as a driver. Driver can see and manage information about available cars.<br/>
 The project is N-tier application with: 

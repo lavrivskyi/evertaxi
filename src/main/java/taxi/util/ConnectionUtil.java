@@ -8,9 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConnectionUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/taxi";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "qwerty12345";
+    private static final String URL = "jdbc:mysql://DATABASE_URL:PORT/taxi";
+    private static final String USERNAME = "USERNAME";
+    private static final String PASSWORD = "PASSWORD";
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final Logger logger = LogManager.getLogger(ConnectionUtil.class);
 
