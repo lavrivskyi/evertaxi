@@ -1,7 +1,6 @@
 package taxi.controller.car;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +14,9 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import taxi.dao.DriverDao;
 import taxi.dao.ManufacturerDao;
 import taxi.dao.impl.DriverDaoImpl;
@@ -23,17 +25,14 @@ import taxi.model.Car;
 import taxi.model.Driver;
 import taxi.model.Manufacturer;
 import taxi.util.ConnectionUtil;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class AddCarControllerTest {
     private static final String REQUEST_DISPATCHER_PATH = "/WEB-INF/views/cars/add.jsp";
-    private static final String REDIRECT_PATH = "/cars/add";
     private static AddCarController addCarController;
     private static HttpServletRequest request;
     private static HttpServletResponse response;
-    private static RequestDispatcher dispatcher;
+    private static RequestDispatcher dispatcherGet;
+    private static RequestDispatcher dispatcherPost;
     private static Long manufacturerId;
     private static String carModel;
 
@@ -55,23 +54,24 @@ public class AddCarControllerTest {
         addCarController = new AddCarController();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        dispatcher = mock(RequestDispatcher.class);
+        dispatcherGet = mock(RequestDispatcher.class);
+        dispatcherPost = mock(RequestDispatcher.class);
     }
 
     @Test
     public void processGetRequest_doGet_OK() throws ServletException, IOException {
-        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcher);
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherGet);
         addCarController.doGet(request, response);
-        verify(request, times(1)).getRequestDispatcher(REQUEST_DISPATCHER_PATH);
-        verify(dispatcher).forward(request, response);
+        verify(dispatcherGet).forward(request, response);
     }
 
     @Test
-    public void processPostRequest_doPost_OK() throws IOException {
+    public void processPostRequest_doPost_OK() throws IOException, ServletException {
         when(request.getParameter("model")).thenReturn(carModel);
         when(request.getParameter("manufacturer_id")).thenReturn(manufacturerId.toString());
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherPost);
         addCarController.doPost(request, response);
-        verify(response).sendRedirect(REDIRECT_PATH);
+        verify(dispatcherPost).forward(request, response);
     }
 
     @AfterClass

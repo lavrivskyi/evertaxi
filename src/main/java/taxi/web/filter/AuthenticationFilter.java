@@ -35,6 +35,10 @@ public class AuthenticationFilter implements Filter {
             response.sendRedirect("/login");
             return;
         }
+        if (driverId != null && servletPath.equals("/login")) {
+            response.sendRedirect("/");
+            return;
+        }
         chain.doFilter(request, response);
     }
 }

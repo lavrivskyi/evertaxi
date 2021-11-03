@@ -33,15 +33,15 @@ public class LoginControllerTest {
     private static HttpServletResponse response;
     private static RequestDispatcher dispatcher;
     private static HttpSession session;
-    private static Driver admin;
+    private static Driver driver;
 
     @BeforeClass
     public static void setBeforeAll(){
         DriverDao driverDao = new DriverDaoImpl();
-        admin = new Driver("Admin", "ADM4395739");
-        admin.setLogin("admin");
-        admin.setPassword("qwerty");
-        driverDao.create(admin);
+        driver = new Driver("Admin", "ADM4395739");
+        driver.setLogin("admin");
+        driver.setPassword("qwerty");
+        driverDao.create(driver);
         loginController = new LoginController();
     }
 
@@ -63,22 +63,21 @@ public class LoginControllerTest {
 
     @Test
     public void processPostRequest_doPost_OK() throws IOException, ServletException {
-        when(request.getParameter("login")).thenReturn(admin.getLogin());
-        when(request.getParameter("password")).thenReturn(admin.getPassword());
+        when(request.getParameter("login")).thenReturn(driver.getLogin());
+        when(request.getParameter("password")).thenReturn(driver.getPassword());
         when(request.getSession()).thenReturn(session);
         loginController.doPost(request, response);
-        verify(session).setAttribute("driver_id", admin.getId());
+        verify(session).setAttribute("driver_id", driver.getId());
         verify(response).sendRedirect(INDEX_PATH);
     }
 
     @Test
     public void processPostRequest_doPost_Not_OK() throws ServletException, IOException {
-        when(request.getParameter("login")).thenReturn(admin.getLogin());
+        when(request.getParameter("login")).thenReturn(driver.getLogin());
         when(request.getParameter("password")).thenReturn(INCORRECT_PASSWORD);
         when(request.getSession()).thenReturn(session);
         when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcher);
         loginController.doPost(request, response);
-        verify(request, times(1)).getRequestDispatcher(REQUEST_DISPATCHER_PATH);
         verify(request, never()).getSession();
         verify(dispatcher).forward(request, response);
     }

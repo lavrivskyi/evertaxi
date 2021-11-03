@@ -20,8 +20,8 @@ import org.junit.Test;
 
 public class AddManufacturerControllerTest {
     private static final String REQUEST_DISPATCHER_PATH = "/WEB-INF/views/manufacturers/add.jsp";
-    private static final String ADD_MANUFACTURERS_PATH = "/manufacturers/add";
-    private static RequestDispatcher dispatcher;
+    private static RequestDispatcher dispatcherGet;
+    private static RequestDispatcher dispatcherPost;
     private static HttpServletRequest request;
     private static HttpServletResponse response;
     private static AddManufacturerController addManufacturerController;
@@ -31,23 +31,26 @@ public class AddManufacturerControllerTest {
         addManufacturerController = new AddManufacturerController();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        dispatcher = mock(RequestDispatcher.class);
+        dispatcherGet = mock(RequestDispatcher.class);
+        dispatcherPost = mock(RequestDispatcher.class);
     }
 
     @Test
     public void processGetRequest_doGet_OK() throws ServletException, IOException {
-        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcher);
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherGet);
         addManufacturerController.doGet(request, response);
         verify(request, times(1)).getRequestDispatcher(REQUEST_DISPATCHER_PATH);
-        verify(dispatcher).forward(request, response);
+        verify(dispatcherGet).forward(request, response);
     }
 
     @Test
-    public void processPostRequest_doPost_OK() throws IOException {
+    public void processPostRequest_doPost_OK() throws IOException, ServletException {
         when(request.getParameter("name")).thenReturn("BMW");
         when(request.getParameter("country")).thenReturn("Germany");
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherPost);
         addManufacturerController.doPost(request, response);
-        verify(response).sendRedirect(ADD_MANUFACTURERS_PATH);
+        verify(request).setAttribute("success_message",  "BMW added successfully!");
+        verify(dispatcherPost).forward(request, response);
     }
 
     @AfterClass

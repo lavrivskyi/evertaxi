@@ -1,27 +1,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
-    <%@include file='/WEB-INF/views/css/table_dark.css' %>
+    <%@include file='/WEB-INF/views/css/main.css' %>
+    <%@include file='/WEB-INF/views/css/buttons/index.scss' %>
 </style>
 <html>
 <head>
     <title>My team</title>
 </head>
 <body>
-<form method="post" id="redirect"></form>
-<h1 class="table_dark">Hello, mates</h1>
-<table class="table_dark">
-    <tr>
-        <th>Redirect to</th>
-    </tr>
-    <tr><td><a href="${pageContext.request.contextPath}/drivers/">Display All Drivers</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/cars/">Display All Cars</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/cars/my">Display My Cars</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/manufacturers/">Display All Manufacturers</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/drivers/add">Create new Driver</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/cars/add">Create new Car</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/manufacturers/add">Create new Manufacturer</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/cars/drivers/add">Add Driver to Car</a></td></tr>
-    <tr><td><a href="${pageContext.request.contextPath}/logout">Logout</a></td></tr>
-</table>
+<div class="center_div">
+    <h1>Hello, <span class="driver_name">${driver_name}</span></h1><br/>
+    <button onclick="myFunction('${pageContext.request.contextPath}/drivers/')" class="name noselect">Display All Drivers</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/cars/')" class="name noselect">Display All Cars</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/cars/my')" class="name noselect">Display My Cars</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/manufacturers/')" class="name noselect">Display All Manufacturers</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/drivers/add')" class="name noselect">Create new Driver</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/cars/add')" class="name noselect">Create new Car</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/manufacturers/add')" class="name noselect">Create new Manufacturer</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/cars/drivers/add')" class="name noselect">Add Driver to Car</button>
+    <button onclick="myFunction('${pageContext.request.contextPath}/logout')" class="name noselect">Logout</button>
+</div>
+
+
+<script type="text/javascript">
+    function myFunction(link) {
+        window.location.href = link;
+    }
+</script>
 </body>
 </html>

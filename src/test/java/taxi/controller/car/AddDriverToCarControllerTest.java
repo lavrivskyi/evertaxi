@@ -31,14 +31,14 @@ import org.junit.Test;
 
 public class AddDriverToCarControllerTest {
     private static final String REQUEST_DISPATCHER_PATH = "/WEB-INF/views/cars/drivers/add.jsp";
-    private static final String REDIRECT_PATH = "/cars/drivers/add";
     private static AddDriverToCarController addDriverToCarController;
     private static DriverDao driverDao;
     private static ManufacturerDao manufacturerDao;
     private static CarDao carDao;
     private static HttpServletRequest request;
     private static HttpServletResponse response;
-    private static RequestDispatcher dispatcher;
+    private static RequestDispatcher dispatcherGet;
+    private static RequestDispatcher dispatcherPost;
     private static Long driverId;
     private static Long carId;
 
@@ -72,25 +72,27 @@ public class AddDriverToCarControllerTest {
         addDriverToCarController = new AddDriverToCarController();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        dispatcher = mock(RequestDispatcher.class);
+        dispatcherGet = mock(RequestDispatcher.class);
+        dispatcherPost = mock(RequestDispatcher.class);
         driverId = stepan.getId();
         carId = bmwCar.getId();
     }
 
     @Test
     public void processGetRequest_doGet_OK() throws IOException, ServletException {
-        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcher);
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherGet);
         addDriverToCarController.doGet(request, response);
         verify(request, times(1)).getRequestDispatcher(REQUEST_DISPATCHER_PATH);
-        verify(dispatcher).forward(request, response);
+        verify(dispatcherGet).forward(request, response);
     }
 
     @Test
-    public void processPostRequest_doPost_OK() throws IOException {
+    public void processPostRequest_doPost_OK() throws IOException, ServletException {
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherPost);
         when(request.getParameter("driver_id")).thenReturn(driverId.toString());
         when(request.getParameter("car_id")).thenReturn(carId.toString());
         addDriverToCarController.doPost(request, response);
-        verify(response).sendRedirect(REDIRECT_PATH);
+        verify(dispatcherPost).forward(request, response);
     }
 
     @AfterClass

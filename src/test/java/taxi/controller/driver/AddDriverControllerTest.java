@@ -20,8 +20,9 @@ import org.junit.Test;
 
 public class AddDriverControllerTest {
     private static final String REQUEST_DISPATCHER_PATH = "/WEB-INF/views/drivers/add.jsp";
-    private static final String ADD_DRIVERS_PATH = "/drivers/add";
-    private static RequestDispatcher dispatcher;
+    private static final String REQUEST_DISPATCHER_LOGIN_PATH = "/WEB-INF/views/login.jsp";
+    private static RequestDispatcher dispatcherGet;
+    private static RequestDispatcher dispatcherPost;
     private static HttpServletRequest request;
     private static HttpServletResponse response;
     private static AddDriverController addDriverController;
@@ -31,25 +32,28 @@ public class AddDriverControllerTest {
         addDriverController = new AddDriverController();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
-        dispatcher = mock(RequestDispatcher.class);
+        dispatcherGet = mock(RequestDispatcher.class);
+        dispatcherPost = mock(RequestDispatcher.class);
     }
 
     @Test
     public void processGetRequest_doGet_OK() throws ServletException, IOException {
-        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcher);
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_PATH)).thenReturn(dispatcherGet);
         addDriverController.doGet(request, response);
         verify(request, times(1)).getRequestDispatcher(REQUEST_DISPATCHER_PATH);
-        verify(dispatcher).forward(request, response);
+        verify(dispatcherGet).forward(request, response);
     }
 
     @Test
-    public void processPostRequest_doPost_OK() throws IOException {
+    public void processPostRequest_doPost_OK() throws IOException, ServletException {
         when(request.getParameter("name")).thenReturn("Kateryna");
         when(request.getParameter("license_number")).thenReturn("KAT3745673");
         when(request.getParameter("login")).thenReturn("kateryna");
         when(request.getParameter("password")).thenReturn("qwerty");
+        when(request.getRequestDispatcher(REQUEST_DISPATCHER_LOGIN_PATH)).thenReturn(dispatcherPost);
         addDriverController.doPost(request, response);
-        verify(response).sendRedirect(ADD_DRIVERS_PATH);
+        verify(request).setAttribute("success_message",  "kateryna registered successfully!");
+        verify(dispatcherPost).forward(request, response);
     }
 
     @AfterClass

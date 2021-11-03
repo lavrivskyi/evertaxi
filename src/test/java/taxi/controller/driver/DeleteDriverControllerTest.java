@@ -19,7 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DeleteDriverControllerTest {
-    private static final String ALL_DRIVERS_PATH = "/drivers/all";
+    private static final String ALL_DRIVERS_PATH = "/drivers";
     private static DeleteDriverController deleteDriverController;
     private static HttpServletRequest request;
     private static HttpServletResponse response;

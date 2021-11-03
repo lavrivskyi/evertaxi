@@ -1,41 +1,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <style>
-    <%@include file='/WEB-INF/views/css/table_dark.css' %>
+    <%@include file='/WEB-INF/views/css/main.css' %>
+    <%@include file='/WEB-INF/views/css/authorization.css' %>
 </style>
 <html>
 <head>
-    <title>All drivers</title>
+    <title>Register driver</title>
 </head>
 <body>
-<form method="post" id="driver" action="${pageContext.request.contextPath}/drivers/add"></form>
-<h1 class="table_dark">Add driver:</h1>
-<table border="1" class="table_dark">
-    <tr>
-        <th>Name</th>
-        <th>License number</th>
-        <th>Login</th>
-        <th>Password</th>
-        <th>Add</th>
-    </tr>
-    <tr>
-        <td>
-            <input type="text" name="name" form="driver" required>
-        </td>
-        <td>
-            <input type="text" name="license_number" form="driver" required>
-        </td>
-        <td>
-            <input type="text" name="login" form="driver" required>
-        </td>
-        <td>
-            <input type="password" name="password" form="driver" required>
-        </td>
-        <td>
-            <input type="submit" name="add" form="driver">
-        </td>
-    </tr>
-</table>
-<a href="${pageContext.request.contextPath}/"><button class="create_btn">Home Page</button></a>
+<div class="user">
+    <header class="user__header">
+        <a href="${pageContext.request.contextPath}/"><img style="width: 70px;" src="https://cdn2.iconfinder.com/data/icons/basics-1/100/Home-512.png" alt="" /></a>
+    </header>
+    <form class="form" method="post" id="driver" action="${pageContext.request.contextPath}/drivers/add">
+        <div class="form__group">
+            <input type="text" placeholder="Name" class="form__input" name="name" form="driver" required>
+        </div>
+        <div class="form__group">
+            <input type="text" placeholder="License number" class="form__input" name="license_number" form="driver" required>
+        </div>
+        <div class="form__group">
+            <input type="text" placeholder="Login" class="form__input" name="login" form="driver" required />
+        </div>
+        <div class="form__group">
+            <input type="password" placeholder="Password" class="form__input" name="password" form="driver" required />
+        </div>
+        <button class="btn" type="submit">Register</button>
+        <button id="register" class="btn" type="button">Login</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    document.getElementById("register").onclick = function () {
+        location.href = "${pageContext.request.contextPath}/login";
+    };
+</script>
 </body>
 </html>

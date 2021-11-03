@@ -22,7 +22,7 @@ public class AddDriverController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+            throws IOException, ServletException {
         String name = req.getParameter("name");
         String licenseNumber = req.getParameter("license_number");
         String login = req.getParameter("login");
@@ -31,6 +31,7 @@ public class AddDriverController extends HttpServlet {
         driver.setLogin(login);
         driver.setPassword(password);
         driverService.create(driver);
-        resp.sendRedirect("/drivers/add");
+        req.setAttribute("success_message", driver.getLogin() + " registered successfully!");
+        req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
     }
 }
